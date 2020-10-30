@@ -56,8 +56,8 @@
 #define ADAFRUIT_096_TFT_BITDEPTH 16
 #define ADAFRUIT_096_TFT_WIDTH 160
 #define ADAFRUIT_096_TFT_HEIGHT 80
-#define ADAFRUIT_096_TFT_OFFSET_X 24
-#define ADAFRUIT_096_TFT_OFFSET_Y 0
+#define ADAFRUIT_096_TFT_OFFSET_X 0
+#define ADAFRUIT_096_TFT_OFFSET_Y 24
 
 
 static const char * ADAFRUIT_096_TFT_TAG = "adafruit_096_tft";
@@ -220,17 +220,16 @@ static void common_init(
     ESP_ERROR_CHECK(ret);
     ret = st7735r_vmctr1(device, ST7735R_CFG_VCOM_NEG_0775);
     ESP_ERROR_CHECK(ret);
-    ret = st7735r_madctl(   // TODO: 0xC0 per adafruit
+    ret = st7735r_madctl(
         device,
-        0xC0
-        // (
-        //   ST7735R_CFG_MIRROR_X |
-        //   ST7735R_CFG_MIRROR_Y |
-        //   ST7735R_CFG_EXCHANGE_XY |
-        //   // ST7735R_CFG_REFRESH_RTL
-        //   // ST7735R_CFG_REFRESH_BTT
-        //   ST7735R_CFG_BGR
-        // )
+        (
+          //ST7735R_CFG_MIRROR_X |
+          //ST7735R_CFG_MIRROR_Y |
+          ST7735R_CFG_EXCHANGE_XY
+          // ST7735R_CFG_REFRESH_RTL
+          // ST7735R_CFG_REFRESH_BTT
+          // ST7735R_CFG_BGR
+        )
     );
     ESP_ERROR_CHECK(ret);
     ret = st7735r_invoff(device);
